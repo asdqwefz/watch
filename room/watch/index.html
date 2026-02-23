@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watch Room - Watch4Party</title>
+    <link rel="canonical" href="https://watch4party.com/room/watch">
+    <link rel="icon" type="image/png" href="../../img/hero-logo.png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<link rel="stylesheet" href="../../style.css">
+</head>
+
+<body class="body-room-app">
+    <div class="room-app-container" id="room-app">
+        <aside class="room-sidebar">
+            <div class="room-sidebar-icon" title="Invite" onclick="roomShowInvite()">
+                <i class="fa-solid fa-user-plus"></i>
+            </div>
+            <div class="room-sidebar-icon" title="Settings" onclick="roomShowSettings()">
+                <i class="fa-solid fa-gear"></i>
+            </div>
+            <div class="room-sidebar-spacer"></div>
+            <div class="room-sidebar-icon" title="Help" onclick="roomShowHelp()">
+                <i class="fa-solid fa-question"></i>
+            </div>
+            <div class="room-sidebar-icon" id="room-btn-cam" title="Camera (click to turn on/off)" onclick="roomToggleCamera()">
+                <i class="fa-solid fa-camera"></i>
+            </div>
+            <div class="room-sidebar-icon" id="room-btn-mic" title="Microphone (click to mute/unmute)" onclick="roomToggleMic()">
+                <i class="fa-solid fa-microphone"></i>
+            </div>
+            <div class="room-mic-level-wrap" id="room-mic-level-wrap" title="Microphone level" style="display:none; margin-bottom: 6px;">
+                <div class="room-mic-level-bar"><div class="room-mic-level-fill" id="room-mic-level-fill"></div></div>
+            </div>
+            <div class="room-sidebar-avatar room-sidebar-avatar-login" title="Login" id="room-sidebar-avatar" onclick="roomShowLoginModal()">
+                <i class="fa-solid fa-user"></i>
+            </div>
+            <span class="room-sidebar-login-label">Login</span>
+        </aside>
+
+        <div class="room-main">
+            <header class="room-topbar">
+                <div class="room-topbar-name" id="room-name-display">
+                    <span id="room-name-text">Room</span>
+                </div>
+                <div class="room-search-wrap">
+                    <i class="fa-brands fa-youtube"></i>
+                    <input type="text" class="room-search-input" id="room-search-input"
+                        placeholder="Paste YouTube link or search...">
+                    <i class="fa-solid fa-magnifying-glass" id="room-search-btn"></i>
+                </div>
+                <button type="button" class="room-topbar-upgrade" title="Upgrade" onclick="roomShowUpgradeModal()">Upgrade</button>
+                <video id="room-local-preview" autoplay playsinline muted
+                    style="width:90px;height:54px;background:#000;border-radius:8px;display:none;object-fit:cover;"></video>
+            </header>
+
+            <div class="room-player-area">
+                <div class="room-video-container" id="room-video-container">
+                    <div id="room-player-placeholder" class="room-video-placeholder">
+                        <i class="fa-brands fa-youtube"></i>
+                        <p>Paste a YouTube link or search to start watching</p>
+                    </div>
+                </div>
+                <div class="room-platforms-section">
+                    <h3 class="room-platforms-title">Platforms</h3>
+                    <div class="room-video-grid room-platforms-grid" id="room-video-grid">
+                        <div class="room-platform-card" data-platform="netflix" title="Netflix">
+                            <div class="room-platform-icon room-platform-netflix">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Netflix" class="room-platform-logo" onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='flex';">
+                                <i class="fa-solid fa-film room-platform-fallback" style="display:none"></i>
+                            </div>
+                            <div class="room-video-card-info"><div class="room-video-card-title">Netflix</div></div>
+                        </div>
+                        <div class="room-platform-card" data-platform="disney" title="Disney+">
+                            <div class="room-platform-icon room-platform-disney">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg" alt="Disney+" class="room-platform-logo" onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='flex';">
+                                <i class="fa-solid fa-tv room-platform-fallback" style="display:none"></i>
+                            </div>
+                            <div class="room-video-card-info"><div class="room-video-card-title">Disney+</div></div>
+                        </div>
+                        <div class="room-platform-card" data-platform="prime" title="Prime Video">
+                            <div class="room-platform-icon room-platform-prime">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/9/90/Prime_Video_logo_%282024%29.svg" alt="Prime Video" class="room-platform-logo" onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='flex';">
+                                <i class="fa-brands fa-amazon room-platform-fallback" style="display:none"></i>
+                            </div>
+                            <div class="room-video-card-info"><div class="room-video-card-title">Prime Video</div></div>
+                        </div>
+                        <div class="room-platform-card" data-platform="hulu" title="Hulu">
+                            <div class="room-platform-icon room-platform-hulu">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Hulu_logo_%282018%29.svg" alt="Hulu" class="room-platform-logo" onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='flex';">
+                                <i class="fa-solid fa-play-circle room-platform-fallback" style="display:none"></i>
+                            </div>
+                            <div class="room-video-card-info"><div class="room-video-card-title">Hulu</div></div>
+                        </div>
+                        <div class="room-platform-card" data-platform="hbomax" title="HBO Max">
+                            <div class="room-platform-icon room-platform-hbomax">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/1/17/HBO_Max_Logo.svg" alt="HBO Max" class="room-platform-logo" onerror="this.style.display='none';if(this.nextElementSibling)this.nextElementSibling.style.display='flex';">
+                                <i class="fa-solid fa-film room-platform-fallback" style="display:none"></i>
+                            </div>
+                            <div class="room-video-card-info"><div class="room-video-card-title">HBO Max</div></div>
+                        </div>
+                        <div class="room-platform-card" data-platform="anime" title="Anime">
+                            <div class="room-platform-icon room-platform-anime">
+                                <i class="fa-solid fa-dragon"></i>
+                            </div>
+                            <div class="room-video-card-info"><div class="room-video-card-title">Anime</div></div>
+                        </div>
+                        <div class="room-platform-card" data-platform="custom" id="room-platform-custom-link" title="Custom Video Link">
+                            <div class="room-platform-icon room-platform-custom"><i class="fa-solid fa-link"></i></div>
+                            <div class="room-video-card-info"><div class="room-video-card-title">Custom Video Link</div></div>
+                        </div>
+                        <div class="room-platform-card room-platform-viewall" id="room-platform-viewall" title="View all platforms">
+                            <div class="room-platform-icon room-platform-viewall-icon">
+                                <span class="room-platform-viewall-top">+50 platforms</span>
+                                <i class="fa-solid fa-squares-plus" aria-hidden="true"></i>
+                            </div>
+                            <div class="room-video-card-info"><div class="room-video-card-title">View all</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <aside class="room-right-panel">
+            <div class="room-tabs">
+                <div class="room-tab active" data-tab="playlist">Playlist</div>
+                <div class="room-tab" data-tab="history">History</div>
+            </div>
+            <div id="room-playlist-view" class="room-tab-content">
+                <div class="room-empty-state">
+                    <i class="fa-solid fa-list"></i>
+                    <p>Playlist is empty</p>
+                </div>
+            </div>
+            <div id="room-history-view" class="room-tab-content hidden">
+                <div class="room-empty-state">
+                    <i class="fa-solid fa-clock-rotate-left"></i>
+                    <p>No history yet</p>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <div id="room-chat-overlay" class="room-chat-overlay hidden">
+        <div class="room-chat-header">
+            <span class="room-chat-title"><i class="fa-solid fa-comments"></i> Chat</span>
+            <button type="button" class="room-chat-close" onclick="roomToggleChat()" aria-label="Close chat"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="room-chat-messages" id="room-chat-messages">
+            <!-- Messages rendered by JS -->
+        </div>
+        <div class="room-chat-input-row">
+            <input type="text" class="room-chat-input" id="room-chat-input" placeholder="Type a message..." maxlength="500" autocomplete="off">
+            <button type="button" class="room-chat-send" id="room-chat-send-btn" onclick="roomSendMessage()" aria-label="Send"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+    </div>
+    <div class="room-floating-chat-btn" id="room-floating-chat-btn" onclick="roomToggleChat()">
+        <i class="fa-solid fa-comment-dots"></i>
+    </div>
+
+    <!-- Invite Modal: App Required (like Streamlfy) -->
+    <div id="room-invite-modal" class="room-modal-overlay hidden">
+        <div class="room-modal room-invite-app-modal">
+            <span class="room-modal-close" onclick="roomHideModals()">&times;</span>
+            <div class="room-invite-app-icon"><i class="fa-solid fa-mobile-screen-button"></i></div>
+            <h2 class="room-invite-app-title">App Required</h2>
+            <p class="room-invite-app-text">To generate invite links and host room parties seamlessly, please use our desktop application.</p>
+            <a href="#" class="room-invite-app-btn watch4party-download-link" target="_blank" rel="noopener">Download Watch4Party App</a>
+        </div>
+    </div>
+    <!-- Platform "Download App" modal (Netflix, Disney+, etc.) -->
+    <div id="room-platform-app-modal" class="room-modal-overlay hidden">
+        <div class="room-modal room-invite-app-modal room-platform-app-modal">
+            <span id="room-platform-app-modal-close" class="room-modal-close" onclick="roomHideModals()" aria-label="Close">&times;</span>
+            <div class="room-invite-app-icon"><i class="fa-solid fa-download"></i></div>
+            <p class="room-invite-app-text" id="room-platform-app-modal-text">To use providers other than YouTube, please download the app.</p>
+            <a href="#" class="room-invite-app-btn watch4party-download-link" target="_blank" rel="noopener">Download App</a>
+        </div>
+    </div>
+    <!-- Long video (40+ min) "Download App" modal -->
+    <div id="room-long-video-modal" class="room-modal-overlay hidden">
+        <div class="room-modal room-invite-app-modal room-platform-app-modal">
+            <span class="room-modal-close" onclick="roomHideModals()" aria-label="Close">&times;</span>
+            <div class="room-invite-app-icon"><i class="fa-solid fa-clock"></i></div>
+            <p class="room-invite-app-text">Videos longer than 40 minutes require the desktop app. Please download the app to watch.</p>
+            <a href="#" class="room-invite-app-btn watch4party-download-link" target="_blank" rel="noopener">Download App</a>
+        </div>
+    </div>
+    <!-- Login Modal -->
+    <div id="room-login-modal" class="room-modal-overlay hidden">
+        <div class="room-modal room-invite-app-modal">
+            <span class="room-modal-close" onclick="roomHideModals()" aria-label="Close">&times;</span>
+            <div class="room-invite-app-icon"><i class="fa-solid fa-right-to-bracket"></i></div>
+            <h2 class="room-invite-app-title">Login</h2>
+            <p class="room-invite-app-text">Log in to sync your preferences and access your account across devices.</p>
+            <a href="../../login/" class="room-invite-app-btn" target="_blank" rel="noopener">Go to Login</a>
+        </div>
+    </div>
+    <!-- Upgrade Modal: pricing cards (Starter, Pro, Ultimate) -->
+    <div id="room-upgrade-modal" class="room-modal-overlay hidden">
+        <div class="room-modal room-upgrade-modal">
+            <span class="room-modal-close" onclick="roomHideModals()" aria-label="Close">&times;</span>
+            <div class="room-upgrade-pricing-grid">
+                <div class="room-upgrade-card">
+                    <div class="room-upgrade-card-header">
+                        <h3>Starter</h3>
+                        <p>For casual viewers</p>
+                    </div>
+                    <span class="room-upgrade-price">$0<span>/mo</span></span>
+                    <ul class="room-upgrade-features">
+                        <li><i class="fa-solid fa-check"></i> 1080p Streaming</li>
+                        <li><i class="fa-solid fa-check"></i> Standard Sync</li>
+                        <li><i class="fa-solid fa-check"></i> Public Rooms</li>
+                    </ul>
+                    <button type="button" class="room-upgrade-btn room-upgrade-btn-outline" disabled>Current Plan</button>
+                </div>
+                <div class="room-upgrade-card room-upgrade-card-popular">
+                    <span class="room-upgrade-badge">POPULAR</span>
+                    <div class="room-upgrade-card-header">
+                        <h3>Pro</h3>
+                        <p>For the binge watchers</p>
+                    </div>
+                    <span class="room-upgrade-price">$9.99<span>/mo</span></span>
+                    <ul class="room-upgrade-features">
+                        <li><i class="fa-solid fa-check"></i> 1440p HD Streaming</li>
+                        <li><i class="fa-solid fa-check"></i> Priority Servers</li>
+                        <li><i class="fa-solid fa-check"></i> Private Rooms</li>
+                        <li><i class="fa-solid fa-check"></i> Ad-free Experience</li>
+                    </ul>
+                    <button type="button" class="room-upgrade-btn room-upgrade-btn-primary" onclick="roomShowChoosePlanAlert()">Choose Plan</button>
+                </div>
+                <div class="room-upgrade-card">
+                    <div class="room-upgrade-card-header">
+                        <h3>Ultimate</h3>
+                        <p>The cinema experience</p>
+                    </div>
+                    <span class="room-upgrade-price">$19.99<span>/mo</span></span>
+                    <ul class="room-upgrade-features">
+                        <li><i class="fa-solid fa-check"></i> 4K HDR Streaming</li>
+                        <li><i class="fa-solid fa-check"></i> Unlimited Everything</li>
+                        <li><i class="fa-solid fa-check"></i> Early Access Features</li>
+                        <li><i class="fa-solid fa-check"></i> Profile Customization</li>
+                    </ul>
+                    <button type="button" class="room-upgrade-btn room-upgrade-btn-outline" onclick="roomShowChoosePlanAlert()">Choose Plan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Settings Modal: two-panel (Room Settings / Personal Settings) -->
+    <div id="room-settings-modal" class="room-modal-overlay hidden">
+        <div class="room-modal room-settings-modal">
+            <span class="room-modal-close" onclick="roomHideModals()" aria-label="Close">&times;</span>
+            <div class="room-settings-panel">
+                <nav class="room-settings-nav" aria-label="Settings tabs">
+                    <button type="button" class="room-settings-nav-item active" data-tab="room" id="room-settings-tab-room">Room Settings</button>
+                    <button type="button" class="room-settings-nav-item" data-tab="personal" id="room-settings-tab-personal">Personal Settings</button>
+                </nav>
+                <div class="room-settings-body">
+                    <div class="room-settings-pane active" id="room-settings-pane-room" role="tabpanel" aria-labelledby="room-settings-tab-room">
+                        <h2>Room Settings</h2>
+                        <div class="room-settings-field">
+                            <label class="room-settings-label" for="room-settings-name">Room Name</label>
+                            <div class="room-settings-row">
+                                <input type="text" id="room-settings-name" class="room-settings-input" placeholder="Temporary Room" maxlength="64">
+                                <button type="button" class="room-settings-save-btn" id="room-settings-save-name">Save</button>
+                            </div>
+                            <p class="room-settings-hint">Temporary rooms will be deleted after 24 hours.</p>
+                        </div>
+                        <div class="room-settings-field">
+                            <label class="room-settings-label" for="room-settings-bg-color">Background Color</label>
+                            <div class="room-settings-row room-settings-color-row">
+                                <input type="color" id="room-settings-bg-color" class="room-settings-color" value="#050505" title="Background color">
+                            </div>
+                        </div>
+                        <div class="room-settings-field">
+                            <label class="room-settings-label">Background Image</label>
+                            <div class="room-settings-bg-options">
+                                <button type="button" class="room-settings-bg-opt active" data-bg="none">None</button>
+                                <button type="button" class="room-settings-bg-opt" data-bg="coral" style="background:#e8a598;"></button>
+                                <button type="button" class="room-settings-bg-opt" data-bg="lavender" style="background:#c4b5fd;"></button>
+                                <button type="button" class="room-settings-bg-opt" data-bg="light" style="background:#f5f5f5;"></button>
+                            </div>
+                            <button type="button" class="room-settings-upload-btn" id="room-settings-upload-bg">Upload Image (Max 5MB)</button>
+                        </div>
+                        <div class="room-settings-footer">
+                            <a href="#" class="room-settings-footer-link">Contact – Site notice / Impressum</a>
+                            <a href="#" class="room-settings-footer-link">Privacy settings</a>
+                            <a href="#" class="room-settings-footer-link">Terms of Use</a>
+                        </div>
+                    </div>
+                    <div class="room-settings-pane" id="room-settings-pane-personal" role="tabpanel" aria-labelledby="room-settings-tab-personal">
+                        <h2>Personal Settings</h2>
+                        <div class="room-settings-field">
+                            <label class="room-settings-checkbox-label">
+                                <input type="checkbox" id="room-settings-push" class="room-settings-checkbox"> Receive push notifications
+                            </label>
+                        </div>
+                        <h3 class="room-settings-subtitle">General Settings</h3>
+                        <div class="room-settings-field">
+                            <label class="room-settings-checkbox-label">
+                                <input type="checkbox" id="room-settings-sound" class="room-settings-checkbox" checked> Notification sound
+                            </label>
+                        </div>
+                        <div class="room-settings-field">
+                            <label class="room-settings-checkbox-label">
+                                <input type="checkbox" id="room-settings-status" class="room-settings-checkbox" checked> Show status messages
+                            </label>
+                        </div>
+                        <div class="room-settings-field">
+                            <label class="room-settings-label" for="room-settings-chat-color">Your chat color</label>
+                            <div class="room-settings-row room-settings-color-row">
+                                <input type="color" id="room-settings-chat-color" class="room-settings-color" value="#ffeb3b" title="Chat color">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Help Modal -->
+    <div id="room-help-modal" class="room-modal-overlay hidden">
+        <div class="room-modal large room-help-modal">
+            <span class="room-modal-close" onclick="roomHideModals()" aria-label="Close">&times;</span>
+            <div class="room-modal-content room-help-content">
+                <h2>How to use Watch4Party</h2>
+                <p class="room-help-intro">Watch4Party lets you watch videos with your friends, synchronized at the same time.</p>
+                <ol class="room-help-steps">
+                    <li><strong>Create a Room</strong> — Create a room for free. No registration required!</li>
+                    <li><strong>Share the Link</strong> — Share the link with your friends (Email, Facebook, Twitter, etc.).</li>
+                    <li><strong>Watch together</strong> — Enjoy videos and music together.</li>
+                </ol>
+                <h3 class="room-help-subtitle">Keyboard Shortcuts</h3>
+                <ul class="room-help-shortcuts">
+                    <li><kbd>Space</kbd> Play / Pause</li>
+                    <li><kbd>F</kbd> Fullscreen</li>
+                    <li><kbd>Enter</kbd> Search</li>
+                    <li><kbd>C</kbd> Chat</li>
+                    <li><kbd>Esc</kbd> Close dialogs</li>
+                </ul>
+                <div class="room-help-actions">
+                    <a href="#" class="room-help-doc-btn" target="_blank" rel="noopener">Product Documentation</a>
+                    <a href="#" class="room-download-link watch4party-download-link" target="_blank" rel="noopener"><i class="fa-brands fa-windows"></i> Download desktop app</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Error state: no room -->
+    <div id="room-error-screen" class="auth-container" style="display:none;">
+        <div class="auth-card">
+            <h2 class="auth-title">Room not found</h2>
+            <p class="auth-subtitle">This room doesn't exist or has expired.</p>
+            <a href="../index.html" class="btn btn-primary">Back to room</a>
+        </div>
+    </div>
+
+    <script>
+    (function () {
+        var STORAGE_KEY = 'watch4party_rooms';
+        function roomGetDownloadUrl(cb) {
+            if (typeof window.WATCH4PARTY_DOWNLOAD_URL !== 'undefined') {
+                cb(window.WATCH4PARTY_DOWNLOAD_URL);
+                return;
+            }
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '../../index.html', true);
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState !== 4) return;
+                var url = '#';
+                try {
+                    var m = (xhr.responseText || '').match(/WATCH4PARTY_DOWNLOAD_URL\s*=\s*[\'"]([^\'"]+)[\'"]/);
+                    if (m && m[1]) url = m[1];
+                } catch (_) {}
+                window.WATCH4PARTY_DOWNLOAD_URL = url;
+                cb(url);
+            };
+            xhr.send();
+        }
+
+        function getRooms() {
+            try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch (_) { return {}; }
+        }
+        function getCode() {
+            var p = new URLSearchParams(window.location.search);
+            return (p.get('code') || '').trim().toUpperCase();
+        }
+        var PLATFORM_ROOM_CODES = {
+            'K7M2N9': 'Netflix',
+            'R4T8V1': 'Disney+',
+            'X3Y6Z2': 'Prime Video',
+            'A9B5C7': 'Hulu',
+            'D1E4F8': 'HBO Max',
+            'G2H6J3': 'Anime',
+            'L5P0Q9': 'Custom Video Link'
+        };
+
+        window.roomCode = null;
+        window.roomData = null;
+        window.roomYtPlayer = null;
+        window.roomPendingVideoId = null;
+        window.roomVideoStream = null;
+        window.roomAudioStream = null;
+        window.roomAudioTrack = null;
+        window.roomMicAnalyser = null;
+        window.roomMicAnimationId = null;
+        window.roomChatChannel = null;
+
+        window.onYouTubeIframeAPIReady = function () {
+            if (window.roomPendingVideoId) {
+                roomLoadVideo(window.roomPendingVideoId);
+                window.roomPendingVideoId = null;
+            }
+        };
+
+        var ROOM_YT_MAX_DURATION_SEC = 40 * 60;
+
+        function roomCheckYoutubeDuration(player, isNewPlayer) {
+            if (!player || typeof player.getDuration !== 'function') return;
+            var attempts = 0;
+            var maxAttempts = 50;
+            var iv = setInterval(function () {
+                attempts++;
+                var dur = 0;
+                try { dur = player.getDuration(); } catch (e) {}
+                if (dur > 0) {
+                    clearInterval(iv);
+                    if (dur > ROOM_YT_MAX_DURATION_SEC) {
+                        try { player.stopVideo(); } catch (e) {}
+                        if (typeof window.roomShowLongVideoModal === 'function') window.roomShowLongVideoModal();
+                        var container = document.getElementById('room-video-container');
+                        if (container) {
+                            container.innerHTML = '';
+                            var wrap = document.createElement('div');
+                            wrap.id = 'room-player-placeholder';
+                            wrap.className = 'room-video-placeholder';
+                            wrap.innerHTML = '<i class="fa-solid fa-download"></i><p>Videos over 40 minutes require the desktop app. Please download the app to watch.</p>';
+                            container.appendChild(wrap);
+                            if (window.roomYtPlayer && typeof window.roomYtPlayer.destroy === 'function') {
+                                try { window.roomYtPlayer.destroy(); } catch (e) {}
+                                window.roomYtPlayer = null;
+                            }
+                        }
+                    }
+                    return;
+                }
+                if (attempts >= maxAttempts) clearInterval(iv);
+            }, 300);
+        }
+
+        function roomLoadVideo(videoId) {
+            var container = document.getElementById('room-video-container');
+            var placeholder = document.getElementById('room-player-placeholder');
+            if (!container) return;
+
+            if (window.roomYtPlayer && typeof window.roomYtPlayer.loadVideoById === 'function') {
+                window.roomYtPlayer.loadVideoById(videoId);
+                roomAddToPlaylist(videoId);
+                roomCheckYoutubeDuration(window.roomYtPlayer, false);
+                return;
+            }
+            if (window.YT && window.YT.Player) {
+                if (placeholder) placeholder.style.display = 'none';
+                container.innerHTML = '<div id="room-yt-player"></div>';
+                roomAddToPlaylist(videoId);
+                window.roomYtPlayer = new YT.Player('room-yt-player', {
+                    height: '100%',
+                    width: '100%',
+                    videoId: videoId,
+                    playerVars: { playsinline: 1, autoplay: 1, rel: 0, modestbranding: 1 },
+                    events: {
+                        onReady: function (e) {
+                            e.target.playVideo();
+                            roomCheckYoutubeDuration(e.target, true);
+                        },
+                        onError: function (e) { console.warn('YT error', e.data); }
+                    }
+                });
+                return;
+            }
+            window.roomPendingVideoId = videoId;
+            if (placeholder) placeholder.innerHTML = '<p>Loading player...</p>';
+            var tag = document.createElement('script');
+            tag.src = 'https://www.youtube.com/iframe_api';
+            document.body.appendChild(tag);
+        }
+
+        function roomAddToPlaylist(videoId) {
+            var view = document.getElementById('room-playlist-view');
+            if (!view) return;
+            var empty = view.querySelector('.room-empty-state');
+            if (empty) empty.remove();
+            var existing = view.querySelector('[data-video-id="' + videoId + '"]');
+            if (existing) return;
+            var div = document.createElement('div');
+            div.className = 'room-playlist-item';
+            div.dataset.videoId = videoId;
+            div.innerHTML = '<div class="room-playlist-item-thumb" style="background-image:url(https://img.youtube.com/vi/' + videoId + '/mqdefault.jpg)"></div><div>Video ' + videoId + '</div>';
+            div.onclick = function () { roomLoadVideo(videoId); };
+            view.insertBefore(div, view.firstChild);
+        }
+
+        function roomHandleSearch(query) {
+            query = (query || '').trim();
+            if (!query) return;
+            var ytMatch = query.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i);
+            if (ytMatch && ytMatch[1]) {
+                roomLoadVideo(ytMatch[1]);
+                return;
+            }
+            var mock = { funny: 'dQw4w9WgXcQ', cat: 'LXb3EKWsInQ', music: 'q76bMs-NwRk', lofi: 'q76bMs-NwRk', relax: 'LXb3EKWsInQ', study: 'M5QY2_8704o', game: 'dQw4w9WgXcQ', nature: 'LXb3EKWsInQ', rain: 'q76bMs-NwRk' };
+            var q = query.toLowerCase();
+            for (var k in mock) { if (q.indexOf(k) !== -1) { roomLoadVideo(mock[k]); return; } }
+            roomLoadVideo('dQw4w9WgXcQ');
+        }
+
+        function roomEscapeHtml(t) {
+            var m = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+            return (t || '').replace(/[&<>"']/g, function (c) { return m[c] || c; });
+        }
+
+        function roomToggleChat() {
+            var overlay = document.getElementById('room-chat-overlay');
+            var btn = document.getElementById('room-floating-chat-btn');
+            if (overlay && overlay.classList) {
+                overlay.classList.toggle('hidden');
+                if (btn) btn.classList.toggle('hidden', !overlay.classList.contains('hidden'));
+            }
+        }
+
+        function roomChatStorageKey() {
+            return window.roomCode ? 'watch4party_chat_' + window.roomCode : null;
+        }
+        function roomGetDisplayName() {
+            try { return sessionStorage.getItem('watch4party_room_displayName') || 'You'; } catch (_) { return 'You'; }
+        }
+        function roomLoadChat() {
+            var key = roomChatStorageKey();
+            if (!key) return [];
+            try {
+                var raw = localStorage.getItem(key);
+                return raw ? JSON.parse(raw) : [];
+            } catch (_) { return []; }
+        }
+        function roomSaveChat(messages) {
+            var key = roomChatStorageKey();
+            if (!key) return;
+            try { localStorage.setItem(key, JSON.stringify(messages)); } catch (_) {}
+        }
+        function roomRenderChatMessage(msg) {
+            var list = document.getElementById('room-chat-messages');
+            if (!list) return;
+            var isOwn = msg.user === roomGetDisplayName();
+            var isSystem = msg.user === 'System';
+            var div = document.createElement('div');
+            div.className = 'room-chat-msg' + (isOwn ? ' own' : '') + (isSystem ? ' system' : '');
+            if (isSystem) {
+                div.innerHTML = '<span class="room-chat-msg-system">' + roomEscapeHtml(msg.text) + '</span>';
+            } else {
+                div.innerHTML = '<div class="room-chat-bubble">' +
+                    '<span class="time">' + roomEscapeHtml(msg.time) + '</span> ' +
+                    '<span class="user">' + roomEscapeHtml(msg.user) + '</span>: ' +
+                    '<span class="text">' + roomEscapeHtml(msg.text) + '</span></div>';
+            }
+            list.appendChild(div);
+            list.scrollTop = list.scrollHeight;
+        }
+        function roomRenderAllChat(messages) {
+            var list = document.getElementById('room-chat-messages');
+            if (!list) return;
+            list.innerHTML = '';
+            (messages || []).forEach(roomRenderChatMessage);
+        }
+        function roomBroadcastChatMessage(msg) {
+            if (window.roomChatChannel) {
+                try { window.roomChatChannel.postMessage(msg); } catch (_) {}
+            }
+        }
+
+        function roomSendMessage() {
+            var input = document.getElementById('room-chat-input');
+            var text = (input && input.value || '').trim();
+            if (!text) return;
+            if (!window.roomChatClientId) window.roomChatClientId = Math.random().toString(36).slice(2);
+            var now = new Date();
+            var time = (now.getHours() < 10 ? '0' : '') + now.getHours() + ':' + (now.getMinutes() < 10 ? '0' : '') + now.getMinutes();
+            var user = roomGetDisplayName();
+            var msg = { time: time, user: user, text: text, clientId: window.roomChatClientId };
+            var messages = roomLoadChat();
+            messages.push(msg);
+            roomSaveChat(messages);
+            roomRenderChatMessage(msg);
+            roomBroadcastChatMessage(msg);
+            if (input) input.value = '';
+        }
+
+        function roomShowInvite() {
+            document.getElementById('room-invite-modal').classList.remove('hidden');
+        }
+        function roomShowSettings() {
+            document.getElementById('room-settings-modal').classList.remove('hidden');
+        }
+        function roomShowHelp() { document.getElementById('room-help-modal').classList.remove('hidden'); }
+        function roomShowLoginModal() { var el = document.getElementById('room-login-modal'); if (el) el.classList.remove('hidden'); }
+        function roomShowUpgradeModal() { var el = document.getElementById('room-upgrade-modal'); if (el) el.classList.remove('hidden'); }
+        function roomShowChoosePlanAlert() {
+            var upgrade = document.getElementById('room-upgrade-modal');
+            if (upgrade) upgrade.classList.add('hidden');
+            alert('Error: Unable to process transaction. Please try again in the Desktop App.');
+        }
+        function roomHideModals() {
+            var platformModal = document.getElementById('room-platform-app-modal');
+            if (platformModal && !platformModal.classList.contains('hidden') && platformModal.getAttribute('data-no-close') === '1') return;
+            var open = document.querySelectorAll('.room-modal-overlay:not(.hidden):not(.closing)');
+            if (open.length === 0) return;
+            open.forEach(function (el) {
+                if (el.getAttribute('data-no-close') === '1') return;
+                el.classList.add('closing');
+                el.addEventListener('animationend', function onClose() {
+                    el.removeEventListener('animationend', onClose);
+                    el.classList.remove('closing');
+                    el.classList.add('hidden');
+                }, { once: true });
+            });
+        }
+
+        async function roomToggleCamera() {
+            var video = document.getElementById('room-local-preview');
+            var btn = document.getElementById('room-btn-cam');
+            if (window.roomVideoStream && window.roomVideoStream.getVideoTracks().length) {
+                window.roomVideoStream.getVideoTracks().forEach(function (t) { t.stop(); });
+                window.roomVideoStream = null;
+                if (video) { video.srcObject = null; video.style.display = 'none'; }
+                if (btn) { btn.classList.remove('active'); btn.querySelector('i').className = 'fa-solid fa-camera'; }
+                return;
+            }
+            try {
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                    alert('Camera is not supported in this browser.');
+                    return;
+                }
+                var stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user', width: { ideal: 640 }, height: { ideal: 360 } }, audio: false });
+                window.roomVideoStream = stream;
+                if (video) {
+                    video.srcObject = stream;
+                    video.style.display = 'block';
+                    video.muted = true;
+                    video.playsInline = true;
+                    video.play().catch(function () {});
+                }
+                if (btn) { btn.classList.add('active'); btn.querySelector('i').className = 'fa-solid fa-video'; }
+            } catch (e) {
+                alert('Camera access denied or not available. Check browser permissions and use HTTPS or localhost.');
+            }
+        }
+        async function roomToggleMic() {
+            var btn = document.getElementById('room-btn-mic');
+            var icon = btn ? btn.querySelector('i') : null;
+            var levelWrap = document.getElementById('room-mic-level-wrap');
+            if (window.roomAudioTrack) {
+                window.roomAudioTrack.enabled = !window.roomAudioTrack.enabled;
+                if (icon) icon.className = window.roomAudioTrack.enabled ? 'fa-solid fa-microphone' : 'fa-solid fa-microphone-slash';
+                if (btn) btn.classList.toggle('active', window.roomAudioTrack.enabled);
+                if (levelWrap) levelWrap.style.display = window.roomAudioTrack.enabled ? 'flex' : 'none';
+                if (window.roomAudioTrack.enabled) roomStartMicLevel(); else roomStopMicLevel();
+                return;
+            }
+            try {
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                    alert('Microphone is not supported in this browser.');
+                    return;
+                }
+                var stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+                window.roomAudioStream = stream;
+                window.roomAudioTrack = stream.getAudioTracks()[0];
+                if (!window.roomAudioTrack) { stream.getTracks().forEach(function (t) { t.stop(); }); window.roomAudioStream = null; return; }
+                if (icon) icon.className = 'fa-solid fa-microphone';
+                if (btn) btn.classList.add('active');
+                if (levelWrap) levelWrap.style.display = 'flex';
+                roomStartMicLevel();
+            } catch (e) {
+                alert('Microphone access denied or not available. Check browser permissions and use HTTPS or localhost.');
+            }
+        }
+        function roomStartMicLevel() {
+            if (!window.roomAudioStream || !window.roomAudioTrack || !window.roomAudioTrack.enabled) return;
+            var analyser = window.roomMicAnalyser;
+            if (!analyser) {
+                var ctx = null;
+                try { ctx = new (window.AudioContext || window.webkitAudioContext)(); } catch (_) { return; }
+                if (ctx.state === 'suspended') ctx.resume().catch(function () {});
+                var source = ctx.createMediaStreamSource(window.roomAudioStream);
+                analyser = ctx.createAnalyser();
+                analyser.fftSize = 256;
+                analyser.smoothingTimeConstant = 0.8;
+                source.connect(analyser);
+                window.roomMicAnalyser = analyser;
+            }
+            var data = new Uint8Array(analyser.frequencyBinCount);
+            function tick() {
+                if (!window.roomAudioTrack || !window.roomAudioTrack.enabled) { window.roomMicAnimationId = null; return; }
+                analyser.getByteFrequencyData(data);
+                var sum = 0;
+                for (var i = 0; i < data.length; i++) sum += data[i];
+                var avg = sum / data.length;
+                var fill = document.getElementById('room-mic-level-fill');
+                if (fill) fill.style.height = Math.min(100, Math.round(avg * 0.4)) + '%';
+                window.roomMicAnimationId = requestAnimationFrame(tick);
+            }
+            tick();
+        }
+        function roomStopMicLevel() {
+            if (window.roomMicAnimationId) { cancelAnimationFrame(window.roomMicAnimationId); window.roomMicAnimationId = null; }
+            var fill = document.getElementById('room-mic-level-fill');
+            if (fill) fill.style.height = '0%';
+        }
+
+        window.roomShowInvite = roomShowInvite;
+        window.roomShowSettings = roomShowSettings;
+        window.roomShowHelp = roomShowHelp;
+        window.roomShowLoginModal = roomShowLoginModal;
+        window.roomShowUpgradeModal = roomShowUpgradeModal;
+        window.roomShowChoosePlanAlert = roomShowChoosePlanAlert;
+        window.roomHideModals = roomHideModals;
+        document.addEventListener('keydown', function (e) {
+            if (e.key !== 'Escape') return;
+            var visible = document.querySelector('.room-modal-overlay:not(.hidden)');
+            if (visible && visible.getAttribute('data-no-close') !== '1') roomHideModals();
+        });
+        document.querySelectorAll('.room-modal-overlay').forEach(function (overlay) {
+            overlay.addEventListener('click', function (e) {
+                if (e.target !== overlay) return;
+                var el = document.getElementById('room-platform-app-modal');
+                if (el && overlay === el && el.getAttribute('data-no-close') === '1') return;
+                roomHideModals();
+            });
+        });
+        window.roomToggleChat = roomToggleChat;
+        window.roomToggleCamera = roomToggleCamera;
+        window.roomToggleMic = roomToggleMic;
+        window.roomSendMessage = roomSendMessage;
+
+        function roomCopyInviteLink() {
+            var base = window.location.pathname.replace(/\/watch\/?.*$/, '') || '/room';
+            var watchPath = base + (base.endsWith('/') ? '' : '/') + 'watch/';
+            var url = window.location.origin + watchPath + '?code=' + encodeURIComponent(window.roomCode || '');
+            navigator.clipboard.writeText(url).then(function () { alert('Invite link copied!'); });
+        }
+
+        function roomSettingsKey(k) { return 'watch4party_' + k + (window.roomCode ? '_' + window.roomCode : ''); }
+        function roomSettingsPersonalKey(k) { return 'watch4party_personal_' + k; }
+
+        function initRoomSettings() {
+            var code = window.roomCode;
+            var navItems = document.querySelectorAll('.room-settings-nav-item');
+            var panes = document.querySelectorAll('.room-settings-pane');
+            navItems.forEach(function (btn) {
+                btn.addEventListener('click', function () {
+                    var tab = btn.getAttribute('data-tab');
+                    navItems.forEach(function (b) { b.classList.remove('active'); });
+                    panes.forEach(function (p) { p.classList.remove('active'); });
+                    btn.classList.add('active');
+                    var pane = document.getElementById('room-settings-pane-' + tab);
+                    if (pane) pane.classList.add('active');
+                });
+            });
+
+            var nameInput = document.getElementById('room-settings-name');
+            var saveBtn = document.getElementById('room-settings-save-name');
+            if (code) {
+                try {
+                    var savedName = localStorage.getItem(roomSettingsKey('room_name'));
+                    if (savedName && nameInput) nameInput.value = savedName;
+                } catch (_) {}
+            }
+            if (saveBtn && nameInput) {
+                saveBtn.addEventListener('click', function () {
+                    var name = (nameInput.value || '').trim() || 'Temporary Room';
+                    try {
+                        if (code) localStorage.setItem(roomSettingsKey('room_name'), name);
+                        var nameText = document.getElementById('room-name-text');
+                        if (nameText) nameText.textContent = name;
+                        alert('Saved.');
+                    } catch (_) { alert('Could not save.'); }
+                });
+            }
+
+            var bgColor = document.getElementById('room-settings-bg-color');
+            if (bgColor) {
+                try {
+                    var savedBg = localStorage.getItem(roomSettingsKey('room_bg_color'));
+                    if (savedBg) { bgColor.value = savedBg; roomApplyBgColor(savedBg); }
+                } catch (_) {}
+                bgColor.addEventListener('input', function () {
+                    var v = bgColor.value;
+                    roomApplyBgColor(v);
+                    try { if (code) localStorage.setItem(roomSettingsKey('room_bg_color'), v); } catch (_) {}
+                });
+            }
+
+            var bgOpts = document.querySelectorAll('.room-settings-bg-opt');
+            bgOpts.forEach(function (opt) {
+                opt.addEventListener('click', function () {
+                    bgOpts.forEach(function (o) { o.classList.remove('active'); });
+                    opt.classList.add('active');
+                    var bgKey = opt.getAttribute('data-bg') || 'none';
+                    roomApplyBgImage(bgKey);
+                    try { if (code) localStorage.setItem(roomSettingsKey('room_bg_image'), bgKey); } catch (_) {}
+                });
+            });
+            try {
+                var savedBgImg = code && localStorage.getItem(roomSettingsKey('room_bg_image'));
+                if (savedBgImg) {
+                    bgOpts.forEach(function (o) { if (o.getAttribute('data-bg') === savedBgImg) { bgOpts.forEach(function (x) { x.classList.remove('active'); }); o.classList.add('active'); } });
+                    roomApplyBgImage(savedBgImg);
+                }
+            } catch (_) {}
+
+            var uploadBtn = document.getElementById('room-settings-upload-bg');
+            if (uploadBtn) uploadBtn.addEventListener('click', function () { alert('Image upload is available in the desktop app.'); });
+
+            var pushCb = document.getElementById('room-settings-push');
+            var soundCb = document.getElementById('room-settings-sound');
+            var statusCb = document.getElementById('room-settings-status');
+            var chatColor = document.getElementById('room-settings-chat-color');
+            function loadPersonal() {
+                try {
+                    var p = localStorage.getItem(roomSettingsPersonalKey('push'));
+                    if (pushCb && p !== null) pushCb.checked = p === '1';
+                    var s = localStorage.getItem(roomSettingsPersonalKey('sound'));
+                    if (soundCb && s !== null) soundCb.checked = s === '1';
+                    var t = localStorage.getItem(roomSettingsPersonalKey('status'));
+                    if (statusCb && t !== null) statusCb.checked = t === '1';
+                    var c = localStorage.getItem(roomSettingsPersonalKey('chat_color'));
+                    if (c && chatColor) chatColor.value = c;
+                    roomApplyChatColor(chatColor ? chatColor.value : '#ffeb3b');
+                } catch (_) {}
+            }
+            loadPersonal();
+            if (pushCb) pushCb.addEventListener('change', function () { try { localStorage.setItem(roomSettingsPersonalKey('push'), pushCb.checked ? '1' : '0'); } catch (_) {} });
+            if (soundCb) soundCb.addEventListener('change', function () { try { localStorage.setItem(roomSettingsPersonalKey('sound'), soundCb.checked ? '1' : '0'); } catch (_) {} });
+            if (statusCb) statusCb.addEventListener('change', function () { try { localStorage.setItem(roomSettingsPersonalKey('status'), statusCb.checked ? '1' : '0'); } catch (_) {} });
+            if (chatColor) chatColor.addEventListener('input', function () {
+                var v = chatColor.value;
+                roomApplyChatColor(v);
+                try { localStorage.setItem(roomSettingsPersonalKey('chat_color'), v); } catch (_) {}
+            });
+        }
+        function roomApplyBgColor(hex) {
+            var el = document.querySelector('.room-app-container');
+            if (el) el.style.backgroundColor = hex || '';
+        }
+        function roomApplyBgImage(bgKey) {
+            var el = document.querySelector('.room-app-container');
+            if (!el) return;
+            el.style.backgroundImage = '';
+            if (bgKey === 'none') {
+                var hex = '';
+                try {
+                    if (window.roomCode) hex = localStorage.getItem(roomSettingsKey('room_bg_color'));
+                } catch (_) {}
+                if (!hex) hex = '#050505';
+                var colorInput = document.getElementById('room-settings-bg-color');
+                if (colorInput) colorInput.value = hex;
+                roomApplyBgColor(hex);
+                return;
+            }
+            var colors = { coral: '#e8a598', lavender: '#c4b5fd', light: '#f5f5f5' };
+            var hex = colors[bgKey] || '#050505';
+            roomApplyBgColor(hex);
+        }
+        function roomApplyChatColor(hex) {
+            document.documentElement.style.setProperty('--room-chat-user-color', hex || 'var(--accent-red)');
+        }
+
+        function init() {
+            roomGetDownloadUrl(function (url) {
+                document.querySelectorAll('.watch4party-download-link').forEach(function (a) { a.href = url; });
+            });
+            var code = getCode();
+            if (!code || code.length !== 6) {
+                document.getElementById('room-app').style.display = 'none';
+                document.getElementById('room-error-screen').style.display = 'flex';
+                return;
+            }
+            var rooms = getRooms();
+            var room = rooms[code];
+            var platformName = PLATFORM_ROOM_CODES[code];
+            if (!room || !room.members) {
+                room = { members: [{}], hostName: platformName || '' };
+            }
+            window.roomCode = code;
+            window.roomData = room;
+            var nameText = document.getElementById('room-name-text');
+            if (nameText) nameText.textContent = room.hostName ? room.hostName + "'s room" : "Guest's room";
+
+            if (platformName) {
+                var modalText = document.getElementById('room-platform-app-modal-text');
+                if (modalText) modalText.textContent = 'This is a ' + platformName + ' room. To join, please download the desktop app.';
+                var platformModal = document.getElementById('room-platform-app-modal');
+                if (platformModal) {
+                    platformModal.setAttribute('data-no-close', '1');
+                    platformModal.classList.add('room-platform-pinned');
+                    var closeBtn = document.getElementById('room-platform-app-modal-close');
+                    if (closeBtn) { closeBtn.style.display = 'none'; closeBtn.removeAttribute('onclick'); closeBtn.onclick = null; closeBtn.setAttribute('aria-hidden', 'true'); }
+                    platformModal.classList.remove('hidden');
+                }
+            }
+
+            window.roomChatClientId = Math.random().toString(36).slice(2);
+            var chatMessages = roomLoadChat();
+            if (chatMessages.length === 0) {
+                chatMessages = [{ time: '--:--', user: 'System', text: 'Welcome to the room!' }];
+                roomSaveChat(chatMessages);
+            }
+            roomRenderAllChat(chatMessages);
+            try {
+                window.roomChatChannel = new BroadcastChannel('watch4party_chat_' + code);
+                window.roomChatChannel.onmessage = function (ev) {
+                    var msg = ev.data;
+                    if (!msg || !msg.time || !msg.user || !msg.text) return;
+                    if (msg.clientId === window.roomChatClientId) return;
+                    var list = roomLoadChat();
+                    list.push(msg);
+                    roomSaveChat(list);
+                    roomRenderChatMessage(msg);
+                };
+            } catch (_) {}
+
+            document.querySelectorAll('.room-tab').forEach(function (tab) {
+                tab.addEventListener('click', function () {
+                    var id = tab.getAttribute('data-tab');
+                    if (!id) return;
+                    document.querySelectorAll('.room-tab').forEach(function (t) { t.classList.remove('active'); });
+                    document.querySelectorAll('.room-tab-content').forEach(function (c) { c.classList.add('hidden'); });
+                    tab.classList.add('active');
+                    var viewEl = document.getElementById('room-' + id + '-view');
+                    if (viewEl) viewEl.classList.remove('hidden');
+                });
+            });
+
+            var searchInput = document.getElementById('room-search-input');
+            var searchBtn = document.getElementById('room-search-btn');
+            function doSearch() { roomHandleSearch(searchInput && searchInput.value); }
+            if (searchInput) searchInput.addEventListener('keypress', function (e) { if (e.key === 'Enter') doSearch(); });
+            if (searchBtn) searchBtn.addEventListener('click', doSearch);
+
+            var chatInputEl = document.getElementById('room-chat-input');
+            if (chatInputEl) chatInputEl.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') { e.preventDefault(); roomSendMessage(); }
+            });
+
+            document.querySelectorAll('.room-video-card').forEach(function (card) {
+                var id = card.getAttribute('data-video-id');
+                if (id) card.addEventListener('click', function () { roomLoadVideo(id); });
+            });
+            function roomShowPlatformAppModal() {
+                var modalText = document.getElementById('room-platform-app-modal-text');
+                if (modalText) modalText.textContent = 'To use providers other than YouTube, please download the app.';
+                var modal = document.getElementById('room-platform-app-modal');
+                if (modal) modal.classList.remove('hidden');
+            }
+            function roomShowLongVideoModal() {
+                var modal = document.getElementById('room-long-video-modal');
+                if (modal) modal.classList.remove('hidden');
+            }
+            window.roomShowPlatformAppModal = roomShowPlatformAppModal;
+            window.roomShowLongVideoModal = roomShowLongVideoModal;
+            document.querySelectorAll('.room-platform-card[data-platform]').forEach(function (card) {
+                card.addEventListener('click', function () { roomShowPlatformAppModal(); });
+            });
+            var viewallCard = document.getElementById('room-platform-viewall');
+            if (viewallCard) {
+                viewallCard.addEventListener('click', function (e) {
+                    if (e.target.closest('.room-platform-viewall-btn')) roomShowPlatformAppModal();
+                    else roomShowPlatformAppModal();
+                });
+            }
+            initRoomSettings();
+            try {
+                var bgImg = localStorage.getItem(roomSettingsKey('room_bg_image'));
+                if (bgImg) roomApplyBgImage(bgImg);
+                else {
+                    var bg = localStorage.getItem(roomSettingsKey('room_bg_color'));
+                    if (bg) roomApplyBgColor(bg);
+                }
+                var cc = localStorage.getItem(roomSettingsPersonalKey('chat_color'));
+                if (cc) roomApplyChatColor(cc);
+            } catch (_) {}
+        }
+
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+        else init();
+    })();
+    </script>
+</body>
+
+</html>

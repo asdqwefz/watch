@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Watch4Party Premium</title>
+    <link rel="canonical" href="https://watch4party.com/profile">
+    <link rel="icon" type="image/png" href="../img/hero-logo.png">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body class="profile-page">
+    <div id="profile-toast" class="profile-toast" role="alert" aria-live="polite">
+        <i class="fa-solid fa-check-circle"></i>
+        <span>Changes saved successfully!</span>
+    </div>
+    <div id="profile-password-modal" class="profile-password-overlay" aria-hidden="true">
+        <div class="profile-password-panel">
+            <h3 class="profile-password-title">Confirm password</h3>
+            <p class="profile-password-text">To change your email, enter your current password.</p>
+            <input type="password" id="profile-password-input" class="form-input" placeholder="Password" autocomplete="current-password">
+            <p id="profile-password-error" class="profile-password-error" style="display: none;">Wrong password. Try again.</p>
+            <div class="profile-password-actions">
+                <button type="button" class="btn btn-outline profile-password-cancel">Cancel</button>
+                <button type="button" class="btn btn-primary profile-password-ok">OK</button>
+            </div>
+        </div>
+    </div>
+    <div id="profile-login-prompt" class="auth-container" style="display: none;">
+        <div class="auth-card">
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">You need to be logged in to view your profile.</p>
+            <a href="../login/" class="btn btn-primary">Sign In</a>
+            <div class="auth-footer" style="margin-top: 2rem;">
+                <a href="../" style="color: var(--text-secondary); font-size: 0.8rem;"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <div id="profile-app" class="profile-app">
+        <header class="profile-header">
+            <a href="../" class="profile-back"><i class="fa-solid fa-arrow-left"></i> Back</a>
+            <h1 class="profile-title">My Profile</h1>
+            <span></span>
+        </header>
+
+        <main class="profile-main container">
+            <section class="profile-hero">
+                <div class="profile-hero-avatar" id="profile-avatar">1</div>
+                <div class="profile-hero-info">
+                    <h2 class="profile-hero-name" id="profile-username">—</h2>
+                    <p class="profile-hero-badge" id="profile-plan-badge"><i class="fa-solid fa-crown"></i> <span id="profile-plan-label">Starter</span></p>
+                    <p class="profile-hero-date" id="profile-member-since">Member since 2026</p>
+                </div>
+            </section>
+
+            <section class="profile-stats">
+                <div class="profile-stat-card">
+                    <i class="fa-solid fa-film"></i>
+                    <span class="profile-stat-value" id="stat-movies">0</span>
+                    <span class="profile-stat-label">Movies Watched</span>
+                </div>
+                <div class="profile-stat-card">
+                    <i class="fa-solid fa-tv"></i>
+                    <span class="profile-stat-value" id="stat-series">0</span>
+                    <span class="profile-stat-label">Series Watched</span>
+                </div>
+                <div class="profile-stat-card">
+                    <i class="fa-solid fa-clock"></i>
+                    <span class="profile-stat-value" id="stat-time">0h</span>
+                    <span class="profile-stat-label">Watch Time</span>
+                </div>
+                <div class="profile-stat-card">
+                    <i class="fa-solid fa-bookmark"></i>
+                    <span class="profile-stat-value" id="stat-watchlist">0</span>
+                    <span class="profile-stat-label">Watchlist</span>
+                </div>
+            </section>
+
+            <section class="profile-card profile-edit-section">
+                <h3 class="profile-card-title"><i class="fa-solid fa-pen-to-square"></i> Edit Profile</h3>
+                <form id="profile-form" class="profile-form">
+                    <div class="profile-form-grid">
+                        <div class="form-group">
+                            <label class="form-label" for="profile-display-name">Display Name</label>
+                            <input type="text" id="profile-display-name" class="form-input" placeholder="Your name">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="profile-email">Email</label>
+                            <input type="email" id="profile-email" class="form-input" placeholder="email@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="profile-phone">Phone</label>
+                            <input type="tel" id="profile-phone" class="form-input" placeholder="+1 (555) 000-0000">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="profile-country">Country</label>
+                            <div class="country-dropdown" id="country-dropdown">
+                                <input type="hidden" name="profile-country" id="profile-country" value="">
+                                <button type="button" class="country-dropdown-trigger form-input" id="country-trigger" aria-expanded="false">
+                                    <span class="country-dropdown-label">Select country</span>
+                                    <i class="fa-solid fa-chevron-down"></i>
+                                </button>
+                                <div class="country-dropdown-panel" id="country-panel" role="listbox">
+                                    <div class="country-dropdown-header">Select country</div>
+                                    <div class="country-dropdown-list" id="country-list"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="profile-bio">Bio</label>
+                        <textarea id="profile-bio" class="form-input form-textarea" rows="4" placeholder="Tell us about yourself..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary profile-save-btn"><i class="fa-solid fa-check"></i> Save Changes</button>
+                </form>
+            </section>
+
+            <section class="profile-card">
+                <h3 class="profile-card-title"><i class="fa-solid fa-globe"></i> Favorite Genres</h3>
+                <div class="profile-genres" id="profile-genres">
+                    <button type="button" class="profile-genre-tag" data-genre="sci-fi">Sci-Fi</button>
+                    <button type="button" class="profile-genre-tag" data-genre="action">Action</button>
+                    <button type="button" class="profile-genre-tag" data-genre="comedy">Comedy</button>
+                    <button type="button" class="profile-genre-tag" data-genre="thriller">Thriller</button>
+                    <button type="button" class="profile-genre-tag" data-genre="romance">Romance</button>
+                    <button type="button" class="profile-genre-tag" data-genre="horror">Horror</button>
+                    <button type="button" class="profile-genre-tag" data-genre="drama">Drama</button>
+                    <button type="button" class="profile-genre-tag" data-genre="documentary">Documentary</button>
+                    <button type="button" class="profile-genre-tag" data-genre="animation">Animation</button>
+                    <button type="button" class="profile-genre-tag" data-genre="fantasy">Fantasy</button>
+                </div>
+            </section>
+
+            <section class="profile-card">
+                <h3 class="profile-card-title"><i class="fa-solid fa-clock-rotate-left"></i> Recently Watched</h3>
+                <div class="profile-recent-empty" id="profile-recent-empty">
+                    <i class="fa-solid fa-film"></i>
+                    <p>You haven't watched anything yet. Start exploring movies and series!</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        (function () {
+            let user = null;
+            try {
+                user = JSON.parse(localStorage.getItem('watch4party_currentUser'));
+            } catch (_) {}
+            const PROFILE_KEY = 'watch4party_profile';
+            let profileData = {};
+            try {
+                profileData = JSON.parse(localStorage.getItem(PROFILE_KEY) || '{}');
+            } catch (_) {}
+
+            const loginPrompt = document.getElementById('profile-login-prompt');
+            const app = document.getElementById('profile-app');
+            if (!user || !user.username) {
+                if (loginPrompt) loginPrompt.style.display = 'flex';
+                if (app) app.style.display = 'none';
+                return;
+            }
+            if (loginPrompt) loginPrompt.style.display = 'none';
+            if (app) app.style.display = 'block';
+
+            var plan = (profileData.plan || 'starter').toLowerCase();
+            if (!['starter', 'pro', 'ultimate'].includes(plan)) plan = 'starter';
+            profileData.plan = plan;
+            var planLabel = document.getElementById('profile-plan-label');
+            if (planLabel) planLabel.textContent = plan.charAt(0).toUpperCase() + plan.slice(1);
+            var planBadge = document.getElementById('profile-plan-badge');
+            if (planBadge) {
+                planBadge.className = 'profile-hero-badge profile-hero-badge--' + plan;
+            }
+            document.getElementById('profile-username').textContent = user.username;
+            document.getElementById('profile-avatar').textContent = (user.username || '').charAt(0).toUpperCase() || '?';
+            document.getElementById('profile-display-name').value = profileData.displayName || user.username;
+            document.getElementById('profile-email').value = profileData.email || user.email || '';
+            document.getElementById('profile-phone').value = profileData.phone || '';
+            document.getElementById('profile-bio').value = profileData.bio || '';
+
+            const countries = [
+                { value: '', label: 'Select country' },
+                { value: 'TR', label: 'Turkey' },
+                { value: 'US', label: 'United States' },
+                { value: 'GB', label: 'United Kingdom' },
+                { value: 'DE', label: 'Germany' },
+                { value: 'FR', label: 'France' },
+                { value: 'NL', label: 'Netherlands' },
+                { value: 'ES', label: 'Spain' },
+                { value: 'IT', label: 'Italy' },
+                { value: 'RU', label: 'Russia' },
+                { value: 'CA', label: 'Canada' },
+                { value: 'AU', label: 'Australia' },
+                { value: 'BR', label: 'Brazil' },
+                { value: 'JP', label: 'Japan' },
+                { value: 'KR', label: 'South Korea' },
+                { value: 'IN', label: 'India' },
+                { value: 'CN', label: 'China' },
+                { value: 'MX', label: 'Mexico' },
+                { value: 'AR', label: 'Argentina' },
+                { value: 'PL', label: 'Poland' },
+                { value: 'SE', label: 'Sweden' },
+                { value: 'NO', label: 'Norway' },
+                { value: 'PT', label: 'Portugal' },
+                { value: 'GR', label: 'Greece' },
+                { value: 'AE', label: 'United Arab Emirates' },
+                { value: 'SA', label: 'Saudi Arabia' },
+                { value: 'EG', label: 'Egypt' },
+                { value: 'ZA', label: 'South Africa' }
+            ];
+            const countryListEl = document.getElementById('country-list');
+            const countryTrigger = document.getElementById('country-trigger');
+            const countryPanel = document.getElementById('country-panel');
+            const countryLabel = document.querySelector('.country-dropdown-label');
+            const countryInput = document.getElementById('profile-country');
+            const countryWrap = document.getElementById('country-dropdown');
+            countries.forEach(function (c) {
+                const opt = document.createElement('div');
+                opt.className = 'country-dropdown-option';
+                opt.setAttribute('data-value', c.value);
+                opt.setAttribute('role', 'option');
+                opt.textContent = c.label;
+                countryListEl.appendChild(opt);
+            });
+            var selectedCountry = profileData.country || '';
+            var selectedLabel = (countries.find(function (c) { return c.value === selectedCountry; }) || {}).label || 'Select country';
+            countryInput.value = selectedCountry;
+            countryLabel.textContent = selectedLabel;
+            countryTrigger.addEventListener('click', function (e) {
+                e.stopPropagation();
+                var open = countryWrap.classList.toggle('open');
+                countryTrigger.setAttribute('aria-expanded', open);
+            });
+            countryListEl.querySelectorAll('.country-dropdown-option').forEach(function (opt) {
+                opt.addEventListener('click', function () {
+                    selectedCountry = this.getAttribute('data-value');
+                    selectedLabel = this.textContent;
+                    countryInput.value = selectedCountry;
+                    countryLabel.textContent = selectedLabel;
+                    countryWrap.classList.remove('open');
+                    countryTrigger.setAttribute('aria-expanded', 'false');
+                });
+            });
+            document.addEventListener('click', function () {
+                countryWrap.classList.remove('open');
+                countryTrigger.setAttribute('aria-expanded', 'false');
+            });
+            countryPanel.addEventListener('click', function (e) { e.stopPropagation(); });
+
+            if (profileData.memberSince) document.getElementById('profile-member-since').textContent = 'Member since ' + profileData.memberSince;
+
+            const stats = profileData.stats || {};
+            document.getElementById('stat-movies').textContent = stats.movies ?? 0;
+            document.getElementById('stat-series').textContent = stats.series ?? 0;
+            document.getElementById('stat-time').textContent = (stats.watchTimeHours ?? 0) + 'h';
+            document.getElementById('stat-watchlist').textContent = stats.watchlist ?? 0;
+
+            const genres = document.querySelectorAll('.profile-genre-tag');
+            const savedGenres = profileData.favoriteGenres || [];
+            genres.forEach(tag => {
+                if (savedGenres.includes(tag.dataset.genre)) tag.classList.add('selected');
+                tag.addEventListener('click', function () {
+                    this.classList.toggle('selected');
+                    const selected = Array.from(document.querySelectorAll('.profile-genre-tag.selected')).map(t => t.dataset.genre);
+                    profileData.favoriteGenres = selected;
+                    localStorage.setItem(PROFILE_KEY, JSON.stringify(profileData));
+                });
+            });
+
+            var originalEmail = user.email || '';
+            var passwordModal = document.getElementById('profile-password-modal');
+            var passwordInput = document.getElementById('profile-password-input');
+            var passwordError = document.getElementById('profile-password-error');
+            var passwordOk = document.querySelector('.profile-password-ok');
+            var passwordCancel = document.querySelector('.profile-password-cancel');
+
+            function doSaveProfile() {
+                var newEmail = document.getElementById('profile-email').value.trim();
+                profileData.displayName = document.getElementById('profile-display-name').value;
+                profileData.email = newEmail;
+                profileData.phone = document.getElementById('profile-phone').value;
+                profileData.country = document.getElementById('profile-country').value;
+                profileData.bio = document.getElementById('profile-bio').value;
+                localStorage.setItem(PROFILE_KEY, JSON.stringify(profileData));
+                document.getElementById('profile-username').textContent = profileData.displayName || user.username;
+                document.getElementById('profile-avatar').textContent = (profileData.displayName || user.username).charAt(0).toUpperCase();
+                var toast = document.getElementById('profile-toast');
+                if (toast) {
+                    toast.classList.add('show');
+                    setTimeout(function () { toast.classList.remove('show'); }, 3000);
+                }
+            }
+
+            function closePasswordModal() {
+                passwordModal.classList.remove('open');
+                passwordModal.setAttribute('aria-hidden', 'true');
+                passwordError.style.display = 'none';
+                passwordInput.value = '';
+            }
+
+            document.getElementById('profile-form').addEventListener('submit', function (e) {
+                e.preventDefault();
+                var newEmail = document.getElementById('profile-email').value.trim();
+                if (newEmail !== originalEmail) {
+                    passwordModal.classList.add('open');
+                    passwordModal.setAttribute('aria-hidden', 'false');
+                    passwordError.style.display = 'none';
+                    passwordInput.value = '';
+                    passwordInput.focus();
+                    passwordOk.onclick = function () {
+                        var pwd = passwordInput.value;
+                        if (pwd !== user.password) {
+                            passwordError.style.display = 'block';
+                            return;
+                        }
+                        var users = [];
+                        try {
+                            users = JSON.parse(localStorage.getItem('watch4party_users') || '[]');
+                        } catch (_) {}
+                        var idx = users.findIndex(function (u) { return u.email === originalEmail; });
+                        if (idx !== -1) {
+                            users[idx].email = newEmail;
+                            localStorage.setItem('watch4party_users', JSON.stringify(users));
+                        }
+                        user.email = newEmail;
+                        localStorage.setItem('watch4party_currentUser', JSON.stringify(user));
+                        originalEmail = newEmail;
+                        closePasswordModal();
+                        doSaveProfile();
+                    };
+                    return;
+                }
+                doSaveProfile();
+            });
+
+            passwordCancel.addEventListener('click', closePasswordModal);
+            passwordModal.addEventListener('click', function (e) {
+                if (e.target === passwordModal) closePasswordModal();
+            });
+            passwordModal.querySelector('.profile-password-panel').addEventListener('click', function (e) { e.stopPropagation(); });
+            passwordInput.addEventListener('keydown', function (e) {
+                if (e.key === 'Enter') passwordOk.click();
+                if (e.key === 'Escape') closePasswordModal();
+            });
+        })();
+    </script>
+</body>
+
+</html>

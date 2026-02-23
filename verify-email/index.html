@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify email - Watch4Party</title>
+    <link rel="icon" type="image/png" href="../img/hero-logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../style.css">
+</head>
+
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div id="verify-success" style="display: none;">
+                <div class="auth-icon" style="font-size: 3rem; color: #4CAF50; margin-bottom: 1rem;">
+                    <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <h2 class="auth-title">Email verified</h2>
+                <p class="auth-subtitle">Your account is now active. You can sign in.</p>
+                <a href="../login/" class="btn btn-primary" style="width: 100%; margin-top: 1rem; display: inline-block; text-align: center; text-decoration: none;">Sign in</a>
+            </div>
+            <div id="verify-error" style="display: none;">
+                <div class="auth-icon" style="font-size: 3rem; color: var(--accent-red); margin-bottom: 1rem;">
+                    <i class="fa-solid fa-circle-xmark"></i>
+                </div>
+                <h2 class="auth-title">Invalid or expired link</h2>
+                <p class="auth-subtitle">This verification link is invalid or has already been used. Please sign up again or request a new link.</p>
+                <a href="../register/" class="btn btn-outline" style="width: 100%; margin-top: 1rem; display: inline-block; text-align: center; text-decoration: none;">Sign up</a>
+            </div>
+            <div id="verify-loading" style="text-align: center; padding: 2rem;">
+                <p class="auth-subtitle">Verifying...</p>
+            </div>
+            <div class="auth-footer" style="margin-top: 1.5rem;">
+                <a href="../index.html" style="color: var(--text-secondary); font-size: 0.8rem;"><i class="fa-solid fa-arrow-left"></i> Back to Home</a>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../script.js"></script>
+    <script>
+        (function () {
+            var params = new URLSearchParams(window.location.search);
+            var token = params.get('token') || '';
+            var successEl = document.getElementById('verify-success');
+            var errorEl = document.getElementById('verify-error');
+            var loadingEl = document.getElementById('verify-loading');
+
+            function showSuccess() {
+                if (loadingEl) loadingEl.style.display = 'none';
+                if (errorEl) errorEl.style.display = 'none';
+                if (successEl) successEl.style.display = 'block';
+            }
+            function showError() {
+                if (loadingEl) loadingEl.style.display = 'none';
+                if (successEl) successEl.style.display = 'none';
+                if (errorEl) errorEl.style.display = 'block';
+            }
+
+            if (!token) {
+                showError();
+                return;
+            }
+
+            var supabase = typeof getSupabaseClient === 'function' ? getSupabaseClient() : null;
+            if (supabase) {
+                supabase.rpc('verify_email_token', { p_token: token }).then(function (res) {
+                    if (res.data && res.data.length > 0 && res.data[0].verified_device_token) {
+                        try {
+                            localStorage.setItem('watch4party_device_token', res.data[0].verified_device_token);
+                        } catch (_) {}
+                        showSuccess();
+                    } else {
+                        showError();
+                    }
+                }).catch(function () {
+                    showError();
+                });
+                return;
+            }
+
+            var users = [];
+            try { users = JSON.parse(localStorage.getItem('watch4party_users') || '[]'); } catch (_) {}
+            var userIndex = users.findIndex(function (u) { return u.verificationToken === token; });
+            if (userIndex === -1) {
+                showError();
+                return;
+            }
+            var deviceToken = '';
+            try {
+                var arr = new Uint8Array(24);
+                crypto.getRandomValues(arr);
+                deviceToken = Array.from(arr).map(function (b) { return b.toString(16).padStart(2, '0'); }).join('');
+            } catch (_) {
+                deviceToken = Math.random().toString(36).slice(2) + Date.now().toString(36);
+            }
+            users[userIndex].verified = true;
+            users[userIndex].verifiedDeviceToken = deviceToken;
+            delete users[userIndex].verificationToken;
+            try {
+                localStorage.setItem('watch4party_users', JSON.stringify(users));
+                localStorage.setItem('watch4party_device_token', deviceToken);
+            } catch (_) {
+                showError();
+                return;
+            }
+            showSuccess();
+        })();
+    </script>
+</body>
+
+</html>
