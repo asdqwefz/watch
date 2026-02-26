@@ -1,4 +1,4 @@
-// EmailJS: e-postalar noreply@watch4party.com üzerinden gider. Dashboard'dan Public Key + Template ID ekle.
+// EmailJS: emails sent from noreply@watch4party.com. Add Public Key + Template ID from Dashboard.
 window.EMAILJS_CONFIG = window.EMAILJS_CONFIG || {
     publicKey: 'rB9SSGJW34YB1z7eg',           // Account > API Keys
     serviceId: 'service_jr36clm',  // Gmail (noreply@watch4party.com)
@@ -27,7 +27,7 @@ function hashPassword(password, email) {
     );
 }
 
-// Temp mail koruması: geçici e-posta domain'leri (küçük harf)
+// Temp mail block: disposable email domains (lowercase)
 var TEMP_EMAIL_DOMAINS = new Set([
     '10minutemail.com', '10minutemail.net', 'tempmail.com', 'temp-mail.org', 'guerrillamail.com',
     'guerrillamail.info', 'guerrillamail.net', 'guerrillamail.org', 'guerrillamail.biz',
@@ -161,15 +161,15 @@ function getNYHour() {
     const str = new Date().toLocaleString('en-US', { timeZone: 'America/New_York', hour: '2-digit', hour12: false });
     return parseInt(str, 10) || 0;
 }
-// Sabah az, öğlen artar, akşam–gece max, sabaha doğru azalır (New York saati)
+// Lower in morning, peaks midday, max evening–night, drops toward dawn (New York time)
 function getNYViewerMultiplier(hour) {
     if (hour >= 22) return 1.15 + (hour - 22) * 0.03;  // 22=>1.15, 23=>1.18
     if (hour < 3) return 1.2 - hour * 0.02;             // 0=>1.2, 1=>1.18, 2=>1.16 (gece max)
-    if (hour >= 3 && hour < 6) return 1.0 - (hour - 3) / 3 * 0.5;  // 3=>1.0, 6=>0.5 (sabaha düşüş)
+    if (hour >= 3 && hour < 6) return 1.0 - (hour - 3) / 3 * 0.5;  // 3=>1.0, 6=>0.5 (drop toward dawn)
     if (hour >= 6 && hour < 9) return 0.5 + (hour - 6) * 0.08;    // sabah 0.5–0.74
-    if (hour >= 9 && hour < 12) return 0.74 + (hour - 9) * 0.08; // öğlen 0.74–0.98
-    if (hour >= 12 && hour < 17) return 0.92 + (hour - 12) * 0.016; // öğleden sonra 0.92–1.0
-    return 1.0 + (hour - 17) * 0.03;  // 17–22 akşam 1.0–1.15
+    if (hour >= 9 && hour < 12) return 0.74 + (hour - 9) * 0.08; // noon 0.74–0.98
+    if (hour >= 12 && hour < 17) return 0.92 + (hour - 12) * 0.016; // afternoon 0.92–1.0
+    return 1.0 + (hour - 17) * 0.03;  // 17–22 evening 1.0–1.15
 }
 function formatViewerFull(n) {
     return Math.round(n).toLocaleString();
@@ -275,7 +275,7 @@ function initAuth() {
             }
 
             if (isTempEmail(email)) {
-                alert("Geçici (temp) e-posta adresleri kabul edilmiyor. Lütfen kalıcı bir e-posta adresi kullanın.");
+                alert("Temporary email addresses are not allowed. Please use a permanent email address.");
                 return;
             }
 
@@ -308,7 +308,7 @@ function initAuth() {
                         }
                     } catch (_) {}
                     if (!clientIp) {
-                        alert("IP adresiniz alınamadı. Lütfen ağ bağlantınızı kontrol edip tekrar deneyin.");
+                        alert("Could not get your IP address. Please check your connection and try again.");
                         btn.textContent = originalText;
                         btn.disabled = false;
                         return;
@@ -325,7 +325,7 @@ function initAuth() {
                         if (error.code === '23505' || (error.message && error.message.indexOf('duplicate') !== -1)) {
                             alert("User with this email already exists!");
                         } else if (error.message && error.message.indexOf('ONE_IP_PER_ACCOUNT') !== -1) {
-                            alert("Bu internet bağlantısından zaten bir hesap açılmış. Her IP adresi için yalnızca bir hesap açılabilir.");
+                            alert("An account has already been created from this connection. Only one account per IP address is allowed.");
                         } else {
                             alert("Registration failed. Please try again.");
                         }
@@ -336,7 +336,7 @@ function initAuth() {
                 } catch (err) {
                     console.warn('Supabase register failed', err);
                     if (err && err.message && err.message.indexOf('ONE_IP_PER_ACCOUNT') !== -1) {
-                        alert("Bu internet bağlantısından zaten bir hesap açılmış. Her IP adresi için yalnızca bir hesap açılabilir.");
+                        alert("An account has already been created from this connection. Only one account per IP address is allowed.");
                     } else {
                         alert("Registration failed. Please try again.");
                     }
@@ -373,7 +373,7 @@ function initAuth() {
                     redirectToCheckEmail();
                 }).catch(function (err) {
                     console.warn('EmailJS send failed', err);
-                    alert('E-posta gönderilemedi. Localhost kullanıyorsanız EmailJS Dashboard\'da "Allowed domains"e http://localhost ekleyin. Hata: ' + (err.text || err.message || 'bilinmiyor'));
+                    alert('Could not send email. If using localhost, add http://localhost to "Allowed domains" in EmailJS Dashboard. Error: ' + (err.text || err.message || 'unknown'));
                     redirectToCheckEmail();
                 });
             } else {
