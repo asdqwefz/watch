@@ -128,6 +128,64 @@ ul {
     padding: 5rem 0;
 }
 
+/* About Page */
+.about-section {
+    /* Navbar fixed olduğu için içeriğe ekstra üst boşluk */
+    padding-top: 6.5rem;
+}
+
+.about-card {
+    background: var(--bg-secondary);
+    border: var(--card-border);
+    border-radius: 24px;
+    padding: 2.5rem;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
+    border-top: var(--glass-border);
+}
+
+.about-card h1 {
+    font-size: 2.6rem;
+    line-height: 1.15;
+    margin-bottom: 1.25rem;
+}
+
+.about-card p {
+    color: var(--text-secondary);
+    font-size: 1.02rem;
+    margin-bottom: 1.25rem;
+}
+
+.about-card h2 {
+    font-size: 1.45rem;
+    margin: 2.25rem 0 0.85rem;
+}
+
+.about-card h2:first-of-type {
+    margin-top: 0.5rem;
+}
+
+.about-card ul {
+    margin: 0.75rem 0 1.25rem;
+    padding: 0;
+}
+
+.about-card li {
+    position: relative;
+    padding-left: 1.35rem;
+    margin-bottom: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.about-card li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    top: 0.05rem;
+    color: var(--accent-red);
+    font-size: 1.25rem;
+}
+
 /* Navbar */
 .navbar {
     position: fixed;
