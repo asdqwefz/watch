@@ -97,6 +97,25 @@ window.addEventListener('scroll', () => {
     }
 });
 
+// Hamburger Menu Toggle
+const hamburgerBtn = document.getElementById('hamburgerBtn');
+const navLinks = document.getElementById('navLinks');
+
+if (hamburgerBtn && navLinks) {
+    hamburgerBtn.addEventListener('click', () => {
+        hamburgerBtn.classList.toggle('active');
+        navLinks.classList.toggle('active');
+    });
+
+    // Close menu when clicking a nav link
+    navLinks.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+            hamburgerBtn.classList.remove('active');
+            navLinks.classList.remove('active');
+        });
+    });
+}
+
 
 
 
