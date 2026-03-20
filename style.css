@@ -128,6 +128,39 @@ ul {
     padding: 5rem 0;
 }
 
+/* FAQ */
+.faq-section {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+}
+
+.faq-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+    max-width: 860px;
+    margin: 0 auto;
+}
+
+.faq-item {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-lg);
+    padding: 0.9rem 1.2rem;
+}
+
+.faq-item summary {
+    cursor: pointer;
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+.faq-item p {
+    margin-top: 0.6rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
 /* About Page */
 .about-section {
     /* Navbar fixed olduğu için içeriğe ekstra üst boşluk */
