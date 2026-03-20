@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Watch4Party - Watch Together</title>
+	<title>Watch4Party – Watch Movies Together Online | Free Watch Party App</title>
 	<link rel="canonical" href="https://watch4party.com/">
 	<link rel="icon" type="image/png" href="img/hero-logo.png">
 	<meta name="description"
@@ -41,6 +41,38 @@
   }
 }
 </script>
+
+	<script type="application/ld+json">
+	{
+	  "@context": "https://schema.org",
+	  "@type": "Organization",
+	  "name": "Watch4Party",
+	  "url": "https://watch4party.com",
+	  "logo": "https://watch4party.com/img/hero-logo.png",
+	  "description": "Watch movies together online with synchronized playback and chat.",
+	  "sameAs": []
+	}
+	</script>
+
+	<script type="application/ld+json">
+	{
+	  "@context": "https://schema.org",
+	  "@type": "SoftwareApplication",
+	  "name": "Watch4Party",
+	  "operatingSystem": "Windows 10/11, macOS 12+",
+	  "applicationCategory": "EntertainmentApplication",
+	  "offers": {
+	    "@type": "Offer",
+	    "price": "0",
+	    "priceCurrency": "USD"
+	  },
+	  "aggregateRating": {
+	    "@type": "AggregateRating",
+	    "ratingValue": "4.9",
+	    "ratingCount": "1200"
+	  }
+	}
+	</script>
 
 	<script type="application/ld+json">
 	{
@@ -85,6 +117,30 @@
 	      "acceptedAnswer": {
 	        "@type": "Answer",
 	        "text": "You just need the room invite link. Open it, choose your display name, and join to start watching together."
+	      }
+	    },
+	    {
+	      "@type": "Question",
+	      "name": "Is Watch4Party free to use?",
+	      "acceptedAnswer": {
+	        "@type": "Answer",
+	        "text": "Yes, Watch4Party offers a free Starter plan with 1080p streaming and public rooms. Premium plans with 4K HDR and advanced features start at $9.99/month."
+	      }
+	    },
+	    {
+	      "@type": "Question",
+	      "name": "How many people can join a watch party room?",
+	      "acceptedAnswer": {
+	        "@type": "Answer",
+	        "text": "Watch4Party supports multiple viewers in a single room. Free users can create public rooms and premium users can host private rooms with advanced moderation controls."
+	      }
+	    },
+	    {
+	      "@type": "Question",
+	      "name": "Does Watch4Party work on mobile devices?",
+	      "acceptedAnswer": {
+	        "@type": "Answer",
+	        "text": "Watch4Party currently offers desktop apps for Windows and macOS. The web experience is also accessible from mobile browsers for joining rooms."
 	      }
 	    }
 	  ]
@@ -165,7 +221,7 @@
 				<div
 					style="position: absolute; inset: 0; background: linear-gradient(to right, #000 0%, transparent 20%, transparent 80%, #000 100%); z-index: 2; pointer-events: none;">
 				</div>
-				<video src="img/video/landingpage_shows.mp4" autoplay loop muted playsinline
+				<video src="img/video/landingpage_shows.mp4" autoplay loop muted playsinline loading="lazy"
 					style="width: 100%; height: auto; display: block; opacity: 0.8;"></video>
 			</div>
 		</div>
@@ -257,33 +313,57 @@
 		<div class="container">
 			<div style="text-align: center; margin-bottom: 2.5rem;">
 				<h2>Watch Together Online FAQ</h2>
-				<p style="color: var(--text-secondary); margin-top: 1rem;">Quick answers about hosting and joining watch parties.</p>
+				<p style="color: var(--text-secondary); margin-top: 1rem;">Quick answers about hosting and joining watch
+					parties.</p>
 			</div>
 
 			<div class="faq-grid">
 				<details class="faq-item" open>
 					<summary>How does Watch4Party enable watch-together online?</summary>
-					<p>Create a room, share the invite link, and Watch4Party synchronizes playback across all viewers so everyone sees the same moment at the same time.</p>
+					<p>Create a room, share the invite link, and Watch4Party synchronizes playback across all viewers so
+						everyone sees the same moment at the same time.</p>
 				</details>
 
 				<details class="faq-item">
 					<summary>Can I host an online movie watch party with my friends?</summary>
-					<p>Yes. Start a room, invite your friends, and watch movies or videos together with synchronized playback and built-in chat.</p>
+					<p>Yes. Start a room, invite your friends, and watch movies or videos together with synchronized
+						playback and built-in chat.</p>
 				</details>
 
 				<details class="faq-item">
 					<summary>Does Watch4Party support Netflix, YouTube, and other video sources?</summary>
-					<p>Watch4Party is designed to sync popular video sources like Netflix and YouTube, plus more compatible platforms.</p>
+					<p>Watch4Party is designed to sync popular video sources like Netflix and YouTube, plus more
+						compatible platforms.</p>
 				</details>
 
 				<details class="faq-item">
 					<summary>Is there lag or delay between viewers?</summary>
-					<p>The experience is built for near real-time synchronization to keep everyone aligned with low-latency playback.</p>
+					<p>The experience is built for near real-time synchronization to keep everyone aligned with
+						low-latency playback.</p>
 				</details>
 
 				<details class="faq-item">
 					<summary>What do I need to join a watch party?</summary>
-					<p>You just need the room invite link. Open it, choose your display name, and join to start watching together.</p>
+					<p>You just need the room invite link. Open it, choose your display name, and join to start watching
+						together.</p>
+				</details>
+
+				<details class="faq-item">
+					<summary>Is Watch4Party free to use?</summary>
+					<p>Yes, Watch4Party offers a free Starter plan with 1080p streaming and public rooms. Premium plans
+						with 4K HDR and advanced features start at $9.99/month.</p>
+				</details>
+
+				<details class="faq-item">
+					<summary>How many people can join a watch party room?</summary>
+					<p>Watch4Party supports multiple viewers in a single room. Free users can create public rooms and
+						premium users can host private rooms with advanced moderation controls.</p>
+				</details>
+
+				<details class="faq-item">
+					<summary>Does Watch4Party work on mobile devices?</summary>
+					<p>Watch4Party currently offers desktop apps for Windows and macOS. The web experience is also
+						accessible from mobile browsers for joining rooms.</p>
 				</details>
 			</div>
 		</div>
@@ -337,7 +417,8 @@
 						<img src="img/mov/dark.jpg" alt="Dark Series" class="room-image">
 						<div class="room-badges">
 							<span class="badge badge-live">LIVE</span>
-							<span class="badge badge-viewers"><i class="fa-solid fa-user" style="margin-right:4px;"></i><span class="room-viewer-count">1,540</span></span>
+							<span class="badge badge-viewers"><i class="fa-solid fa-user"
+									style="margin-right:4px;"></i><span class="room-viewer-count">1,540</span></span>
 						</div>
 					</div>
 					<div class="room-content">
@@ -354,7 +435,8 @@
 									style="z-index:2;">
 								<img src="https://i.pravatar.cc/100?img=33" class="participant-avatar"
 									style="z-index:1;">
-								<div class="participant-avatar room-viewer-short" style="z-index:0; padding-left:2px;">+1.5k</div>
+								<div class="participant-avatar room-viewer-short" style="z-index:0; padding-left:2px;">
+									+1.5k</div>
 							</div>
 						</div>
 						<a href="#download" class="btn-room-action">
@@ -369,7 +451,8 @@
 						<img src="img/mov/sexedu.jpg" alt="Sex Education" class="room-image">
 						<div class="room-badges">
 							<span class="badge badge-live">LIVE</span>
-							<span class="badge badge-viewers"><i class="fa-solid fa-user" style="margin-right:4px;"></i><span class="room-viewer-count">2,100</span></span>
+							<span class="badge badge-viewers"><i class="fa-solid fa-user"
+									style="margin-right:4px;"></i><span class="room-viewer-count">2,100</span></span>
 						</div>
 					</div>
 					<div class="room-content">
@@ -386,7 +469,8 @@
 									style="z-index:2;">
 								<img src="https://i.pravatar.cc/100?img=52" class="participant-avatar"
 									style="z-index:1;">
-								<div class="participant-avatar room-viewer-short" style="z-index:0; padding-left:2px;">+2k</div>
+								<div class="participant-avatar room-viewer-short" style="z-index:0; padding-left:2px;">
+									+2k</div>
 							</div>
 						</div>
 						<a href="#download" class="btn-room-action">
@@ -402,7 +486,8 @@
 							style="object-fit: contain; padding: 20px;">
 						<div class="room-badges">
 							<span class="badge badge-live">LIVE</span>
-							<span class="badge badge-viewers"><i class="fa-solid fa-user" style="margin-right:4px;"></i><span class="room-viewer-count">3,420</span></span>
+							<span class="badge badge-viewers"><i class="fa-solid fa-user"
+									style="margin-right:4px;"></i><span class="room-viewer-count">3,420</span></span>
 						</div>
 					</div>
 					<div class="room-content">
@@ -419,7 +504,8 @@
 									style="z-index:2;">
 								<img src="https://i.pravatar.cc/100?img=4" class="participant-avatar"
 									style="z-index:1;">
-								<div class="participant-avatar room-viewer-short" style="z-index:0; padding-left:2px;">+3k</div>
+								<div class="participant-avatar room-viewer-short" style="z-index:0; padding-left:2px;">
+									+3k</div>
 							</div>
 						</div>
 						<a href="#download" class="btn-room-action">
@@ -435,7 +521,8 @@
 							alt="Scary Horror" class="room-image" style="filter: contrast(1.2) brightness(0.7);">
 						<div class="room-badges">
 							<span class="badge badge-live">LIVE</span>
-							<span class="badge badge-viewers"><i class="fa-solid fa-user" style="margin-right:4px;"></i><span class="room-viewer-count">666</span></span>
+							<span class="badge badge-viewers"><i class="fa-solid fa-user"
+									style="margin-right:4px;"></i><span class="room-viewer-count">666</span></span>
 						</div>
 					</div>
 					<div class="room-content">
@@ -452,7 +539,8 @@
 									style="z-index:2;">
 								<img src="https://i.pravatar.cc/100?img=10" class="participant-avatar"
 									style="z-index:1;">
-								<div class="participant-avatar room-viewer-short" style="z-index:0; padding-left:2px;">+600</div>
+								<div class="participant-avatar room-viewer-short" style="z-index:0; padding-left:2px;">
+									+600</div>
 							</div>
 						</div>
 						<a href="#download" class="btn-room-action">
@@ -467,7 +555,8 @@
 							alt="Marvel Logo" class="room-image" style="object-fit: contain; padding: 30px;">
 						<div class="room-badges">
 							<span class="badge badge-live">LIVE</span>
-							<span class="badge badge-viewers"><i class="fa-solid fa-user" style="margin-right:4px;"></i><span class="room-viewer-count">3,000</span></span>
+							<span class="badge badge-viewers"><i class="fa-solid fa-user"
+									style="margin-right:4px;"></i><span class="room-viewer-count">3,000</span></span>
 						</div>
 					</div>
 					<div class="room-content">
@@ -484,7 +573,8 @@
 									style="z-index:2;">
 								<img src="https://i.pravatar.cc/100?img=57" class="participant-avatar"
 									style="z-index:1;">
-								<div class="participant-avatar room-viewer-short" style="z-index:0; padding-left:2px;">+3k</div>
+								<div class="participant-avatar room-viewer-short" style="z-index:0; padding-left:2px;">
+									+3k</div>
 							</div>
 						</div>
 						<a href="#download" class="btn-room-action">
@@ -499,7 +589,8 @@
 							alt="E-Sports" class="room-image">
 						<div class="room-badges">
 							<span class="badge badge-live">LIVE</span>
-							<span class="badge badge-viewers"><i class="fa-solid fa-user" style="margin-right:4px;"></i><span class="room-viewer-count">2,890</span></span>
+							<span class="badge badge-viewers"><i class="fa-solid fa-user"
+									style="margin-right:4px;"></i><span class="room-viewer-count">2,890</span></span>
 						</div>
 					</div>
 					<div class="room-content">
@@ -516,7 +607,8 @@
 									style="z-index:2;">
 								<img src="https://i.pravatar.cc/100?img=35" class="participant-avatar"
 									style="z-index:1;">
-								<div class="participant-avatar room-viewer-short" style="z-index:0; padding-left:2px;">+2k</div>
+								<div class="participant-avatar room-viewer-short" style="z-index:0; padding-left:2px;">
+									+2k</div>
 							</div>
 						</div>
 						<a href="#download" class="btn-room-action">
@@ -603,8 +695,8 @@
 				Watch4Party app to join rooms, host parties, and chat with friends.</p>
 
 			<div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
-				<a id="mainDownloadBtn" href="#"
-					class="btn btn-premium-glow" style="padding: 1rem 3rem; font-size: 1.2rem;">
+				<a id="mainDownloadBtn" href="#" class="btn btn-premium-glow"
+					style="padding: 1rem 3rem; font-size: 1.2rem;">
 					<i class="fa-brands fa-windows" style="margin-right: 10px;"></i> Download for Windows
 				</a>
 				<a href="macos/" class="btn btn-outline" style="padding: 1rem 3rem; font-size: 1.2rem;">
@@ -616,10 +708,26 @@
 		</div>
 	</section>
 
-	<footer
-		style="padding: 2rem 0; text-align: center; border-top: var(--glass-border); color: var(--text-secondary); font-size: 0.9rem;">
+	<footer style="padding: 3rem 0; border-top: var(--glass-border); color: var(--text-secondary); font-size: 0.9rem;">
 		<div class="container">
-			<p>&copy; 2026 Watch4Party All rights reserved.</p>
+			<div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+				<a href="/" style="color: var(--text-secondary); text-decoration: none; transition: color 0.3s;"
+					onmouseover="this.style.color='var(--accent-red)'"
+					onmouseout="this.style.color='var(--text-secondary)'">Home</a>
+				<a href="#features" style="color: var(--text-secondary); text-decoration: none; transition: color 0.3s;"
+					onmouseover="this.style.color='var(--accent-red)'"
+					onmouseout="this.style.color='var(--text-secondary)'">Features</a>
+				<a href="#pricing" style="color: var(--text-secondary); text-decoration: none; transition: color 0.3s;"
+					onmouseover="this.style.color='var(--accent-red)'"
+					onmouseout="this.style.color='var(--text-secondary)'">Pricing</a>
+				<a href="about/" style="color: var(--text-secondary); text-decoration: none; transition: color 0.3s;"
+					onmouseover="this.style.color='var(--accent-red)'"
+					onmouseout="this.style.color='var(--text-secondary)'">About</a>
+				<a href="#download" style="color: var(--text-secondary); text-decoration: none; transition: color 0.3s;"
+					onmouseover="this.style.color='var(--accent-red)'"
+					onmouseout="this.style.color='var(--text-secondary)'">Download</a>
+			</div>
+			<p style="text-align: center;">&copy; 2026 Watch4Party. All rights reserved.</p>
 		</div>
 	</footer>
 
