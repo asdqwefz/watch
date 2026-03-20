@@ -1,5 +1,4 @@
 User-agent: *
-Disallow: /about/
 Disallow: /login/
 Disallow: /register/
 Disallow: /verify-email/
@@ -8,5 +7,5 @@ Disallow: /settings/
 Disallow: /room/
 Disallow: /macos/
 
-# Only allow crawling/indexing of the homepage.
+# Allow crawling of homepage and about page
 Sitemap: https://watch4party.com/sitemap.xml
