@@ -456,7 +456,7 @@ function initAuth() {
                 const btn = authForm.querySelector('button');
                 btn.textContent = 'Logging In...';
                 setTimeout(() => {
-                    window.location.href = '../index.html';
+                    window.location.href = '/';
                 }, 800);
             } else {
                 alert("Invalid email or password!");

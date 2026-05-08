@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Create Room | Watch4Party</title>
+<script>
+// Redirect to room page with create mode, keeping the clean URL in the address bar
+(function () {
+    try { sessionStorage.setItem('watch4party_create_mode', '1'); } catch (_) {}
+    var base = window.location.pathname.replace(/\/create\/?$/, '') || '/room';
+    window.location.replace(window.location.origin + base + '/');
+})();
+</script>
+</head>
+<body></body>
+</html>

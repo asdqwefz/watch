@@ -355,7 +355,7 @@
         <div class="auth-card">
             <h2 class="auth-title">Room not found</h2>
             <p class="auth-subtitle">This room doesn't exist or has expired.</p>
-            <a href="../index.html" class="btn btn-primary">Back to room</a>
+            <a href="/room/" class="btn btn-primary">Back to room</a>
         </div>
     </div>
 
@@ -386,8 +386,20 @@
             try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch (_) { return {}; }
         }
         function getCode() {
+            // 1) Try ?code= query param (legacy / direct access)
             var p = new URLSearchParams(window.location.search);
-            return (p.get('code') || '').trim().toUpperCase();
+            var fromQuery = (p.get('code') || '').trim().toUpperCase();
+            if (fromQuery.length === 6) return fromQuery;
+            // 2) Try clean URL path: /room/WVM93Y  (set by 404 redirect trick)
+            var fromSession = (sessionStorage.getItem('watch4party_room_code') || '').trim().toUpperCase();
+            if (fromSession.length === 6) { sessionStorage.removeItem('watch4party_room_code'); return fromSession; }
+            // 3) Try path segments directly (e.g. if served by a real server)
+            var parts = window.location.pathname.split('/').filter(Boolean);
+            var ri = parts.indexOf('room');
+            if (ri >= 0 && parts[ri + 1] && /^[A-Z0-9]{6}$/i.test(parts[ri + 1])) {
+                return parts[ri + 1].toUpperCase();
+            }
+            return '';
         }
         var PLATFORM_ROOM_CODES = {
             'K7M2N9': 'Netflix',
@@ -745,9 +757,7 @@
         window.roomSendMessage = roomSendMessage;
 
         function roomCopyInviteLink() {
-            var base = window.location.pathname.replace(/\/watch\/?.*$/, '') || '/room';
-            var watchPath = base + (base.endsWith('/') ? '' : '/') + 'watch/';
-            var url = window.location.origin + watchPath + '?code=' + encodeURIComponent(window.roomCode || '');
+            var url = window.location.origin + '/room/' + encodeURIComponent(window.roomCode || '');
             navigator.clipboard.writeText(url).then(function () { alert('Invite link copied!'); });
         }
 
@@ -895,6 +905,13 @@
             }
             window.roomCode = code;
             window.roomData = room;
+            // ── Clean URL: show /room/CODE in address bar ──
+            try {
+                var cleanUrl = window.location.origin + '/room/' + code;
+                if (window.location.href !== cleanUrl) {
+                    history.replaceState(null, '', cleanUrl);
+                }
+            } catch (_) {}
             var nameText = document.getElementById('room-name-text');
             if (nameText) nameText.textContent = room.hostName ? room.hostName + "'s room" : "Guest's room";
 

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Redirecting… | Watch4Party</title>
+<script>
+(function () {
+    var path = window.location.pathname;          // e.g. /room/WVM93Y
+    var parts = path.split('/').filter(Boolean);  // ["room","WVM93Y"]
+    var ri = parts.indexOf('room');
+
+    // Clean URL pattern: /room/<CODE>  (6 alphanumeric chars)
+    if (ri >= 0 && parts[ri + 1] && /^[A-Z0-9]{6}$/i.test(parts[ri + 1])) {
+        var code = parts[ri + 1].toUpperCase();
+        // Pass the code via sessionStorage so room/watch/index.html can pick it up
+        try { sessionStorage.setItem('watch4party_room_code', code); } catch (_) {}
+        // Redirect to the actual watch page
+        window.location.replace(window.location.origin + '/room/watch/?code=' + encodeURIComponent(code));
+        return;
+    }
+
+    // Not a room URL — show a friendly 404
+    document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('loader').style.display = 'none';
+        document.getElementById('not-found').style.display = 'block';
+    });
+})();
+</script>
+<style>
+  body { margin:0; background:#0f0f0f; color:#f3f1f1; font-family:'Outfit',system-ui,sans-serif;
+         display:flex; align-items:center; justify-content:center; min-height:100vh; }
+  #not-found { display:none; text-align:center; }
+  #not-found h1 { font-size:3rem; margin:0 0 .5rem; }
+  #not-found p  { color:#a5a0a0; margin:0 0 1.5rem; }
+  #not-found a  { background:#e53935; color:#fff; padding:.6rem 1.4rem;
+                  border-radius:.5rem; text-decoration:none; font-weight:600; }
+  #loader { color:#a5a0a0; font-size:.95rem; }
+</style>
+</head>
+<body>
+  <div id="loader">Redirecting…</div>
+  <div id="not-found">
+    <h1>404</h1>
+    <p>This page doesn't exist.</p>
+    <a href="/">Go Home</a>
+  </div>
+</body>
+</html>
